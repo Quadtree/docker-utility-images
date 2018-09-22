@@ -15,7 +15,7 @@ RUN apt-get install -y libtool
 RUN apt-get install -y make
 RUN apt-get install -y nano rsync
 RUN apt-get install -y pkg-config
-RUN mkdir /usr/local/znt_web
-RUN mkdir /usr/local/znt_src
+RUN mkdir /usr/local/znt_web /usr/local/znt_src
+RUN chown cmp /usr/local/znt_web /usr/local/znt_src
 USER cmp
 ENTRYPOINT ["/bin/bash"]
