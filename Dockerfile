@@ -16,4 +16,4 @@ RUN apt-get install -y make
 RUN apt-get install -y nano rsync
 RUN apt-get install -y pkg-config
 USER cmp
-ENTRYPOINT ["/bin/bash", "-l", "-c"]
+ENTRYPOINT ["/bin/bash"]
