@@ -12,5 +12,8 @@ RUN echo 'source ~/emsdk/emsdk_env.sh' >> ~/.bashrc
 USER root
 RUN apt-get install -y autoconf
 RUN apt-get install -y libtool
+RUN apt-get install -y make
+RUN apt-get install -y nano rsync
+RUN apt-get install -y pkg-config
 USER cmp
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/bin/bash", "-l", "-c"]
