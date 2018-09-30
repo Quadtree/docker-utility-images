@@ -1,7 +1,6 @@
 FROM ubuntu
-RUN apt-get update
-RUN apt-get install -y git xvfb nodejs firefox npm
-RUN npm -g install webdriver-manager
+RUN apt-get update && apt-get install -y git xvfb nodejs npm firefox
 RUN useradd -m cmp
 USER cmp
+RUN cd ~ ; npm install webdriver-manager
 ENTRYPOINT ["/bin/bash"]
