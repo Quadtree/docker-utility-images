@@ -15,6 +15,8 @@ RUN apt-get install -y libtool
 RUN apt-get install -y make
 RUN apt-get install -y nano rsync
 RUN apt-get install -y pkg-config
+RUN apt-get update
+RUN apt-get install -y cmake python3
 RUN mkdir /usr/local/znt_web /usr/local/znt_src
 RUN chown cmp /usr/local/znt_web /usr/local/znt_src
 USER cmp
