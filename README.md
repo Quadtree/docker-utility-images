@@ -1,7 +1,7 @@
 # Building
 * ./build.sh
 
-If the build fails with weird errors from apt-get, the problem is probably that the cache is out of date. Run `docker system prune`.
+If the build fails with weird errors from apt-get, the problem is probably that the cache is out of date. Run the offending build with `--no-cache` before the `-t`.
 
 # Image Running Commands
 
