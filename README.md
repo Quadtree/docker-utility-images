@@ -6,3 +6,6 @@ Helpful commands for running images:
 
 * docker run -v /var/data/zoomable-note-taker:/usr/local/znt_src:ro -it chrome-webdriver
 * python3 /usr/local/znt_src/tests/run.py
+
+
+* docker run -it -p 4200:4200 -v /var/data/angulartest:/usr/local/www angular
