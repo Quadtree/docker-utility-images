@@ -8,4 +8,4 @@ Helpful commands for running images:
 * python3 /usr/local/znt_src/tests/run.py
 
 
-* docker run -it -p 4200:4200 -v /var/data/angulartest:/usr/local/www angular
+* docker run -it -p 4200:4200 -v /var/data/combat-test-grid:/www:ro angular

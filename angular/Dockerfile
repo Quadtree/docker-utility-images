@@ -8,4 +8,4 @@ RUN useradd -m cmp
 RUN chown cmp:cmp /www
 USER cmp
 
-ENTRYPOINT ["/bin/bash"]
+CMD ["/bin/bash", "-c", "cd /www ; ng serve --watch --public-host sigma.quadtree.info --host 0.0.0.0"]
