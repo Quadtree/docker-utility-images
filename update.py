@@ -21,17 +21,46 @@ for fn in os.listdir(cur_path):
         base_image = None
         base_image_tag = None
 
+        tag_regex = None
+
         for l in dockerfile_lines:
-            m = re.match(r'FROM (([A-Za-z0-9_-]+)/)?([A-Za-z0-9_-]+)(:([A-Za-z0-9_-]*))?', l)
+            m = re.match(r'FROM (([A-Za-z0-9_.-]+)/)?([A-Za-z0-9_.-]+)(:([A-Za-z0-9_.-]*))?', l)
 
             if m:
                 base_image_repository = m.group(2)
                 base_image = m.group(3)
                 base_image_tag = m.group(5)
 
+            m = re.match(r'# AUTO (.+)', l)
+
+            if m:
+                tag_regex = m.group(1)
+
+        if not tag_regex: continue
+
+        if not base_image_repository: base_image_repository = 'library'
+
         print('base_image_repository=' + str(base_image_repository))
         print('base_image=' + str(base_image))
         print('base_image_tag=' + str(base_image_tag))
+
+        new_tag = None
+
+        next_uri = 'https://registry.hub.docker.com/v2/repositories/' + base_image_repository + '/' + base_image + '/tags/'
+
+        while not new_tag:
+            print('Fetching ' + next_uri)
+            resp = requests.get(next_uri)
+
+            if 'next' in resp.json():
+                next_uri = resp.json()['next']
+
+            for result in resp.json()['results']:
+                #if result['name'] != 'latest':
+                if re.match(tag_regex, result['name']):
+                    print(result['name'])
+                    new_tag = result['name']
+                    break
 
 
     except NotADirectoryError: pass
