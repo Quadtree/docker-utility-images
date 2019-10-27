@@ -27,7 +27,7 @@ for fn in os.listdir(cur_path):
 
             if tag and tag != 'latest':
                 subprocess.run(['docker', 'build', '-t', 'quadtree2/' + fn + ':' + tag, fn])
-                subprocess.run(['docker', 'push', 'quadtree2/' + fn + ':' + tag, fn])
+                subprocess.run(['docker', 'push', 'quadtree2/' + fn + ':' + tag])
 
             subprocess.run(['docker', 'build', '-t', 'quadtree2/' + fn + ':' + 'latest', fn])
-            subprocess.run(['docker', 'push', 'quadtree2/' + fn + ':' + 'latest', fn])
+            subprocess.run(['docker', 'push', 'quadtree2/' + fn + ':' + 'latest'])
