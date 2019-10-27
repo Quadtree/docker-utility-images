@@ -25,5 +25,5 @@ for fn in os.listdir(cur_path):
                     if m:
                         tag = m.group(5)
 
-            subprocess.run(['docker', 'build', '-t', 'quadtree2/' + fn + ':' + tag, fn])
+            if tag and tag != 'latest': subprocess.run(['docker', 'build', '-t', 'quadtree2/' + fn + ':' + tag, fn])
             subprocess.run(['docker', 'build', '-t', 'quadtree2/' + fn + ':' + 'latest', fn])
