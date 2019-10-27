@@ -62,6 +62,17 @@ for fn in os.listdir(cur_path):
                     new_tag = result['name']
                     break
 
+        if new_tag:
+            with open(os.path.join(cur_path, fn, 'Dockerfile'), 'w') as f:
+                for l in dockerfile_lines:
+                    if 'FROM' in l:
+                        if base_image_repository:
+                            f.write('FROM ' + base_image_repository + '/' + base_image + ':' + new_tag + '\n')
+                        else:
+                            f.write('FROM ' + base_image + ':' + new_tag + '\n')
+                    else:
+                        f.write(l + '\n')
+
 
     except NotADirectoryError: pass
     except FileNotFoundError: pass
