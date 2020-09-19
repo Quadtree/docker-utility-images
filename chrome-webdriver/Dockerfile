@@ -1,5 +1,5 @@
 # AUTO ^[\d.]+$
-FROM selenium/standalone-chrome:3.141.59
+FROM selenium/standalone-chrome:3.13
 USER root
 RUN apt-get update && apt-get install -y python3-pip
 USER seluser

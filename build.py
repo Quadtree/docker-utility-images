@@ -8,6 +8,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--only')
+parser.add_argument('--no-cache', action="store_true")
 
 args = parser.parse_args()
 
@@ -25,9 +26,12 @@ for fn in os.listdir(cur_path):
                     if m:
                         tag = m.group(5)
 
+            additional = []
+            if args.no_cache: additional += ["--no-cache"]
+
             if tag and tag != 'latest':
-                subprocess.run(['docker', 'build', '-t', 'quadtree2/' + fn + ':' + tag, fn])
+                subprocess.run(['docker', 'build', '-t', 'quadtree2/' + fn + ':' + tag, fn] + additional)
                 subprocess.run(['docker', 'push', 'quadtree2/' + fn + ':' + tag])
 
-            subprocess.run(['docker', 'build', '-t', 'quadtree2/' + fn + ':' + 'latest', fn])
+            subprocess.run(['docker', 'build', '-t', 'quadtree2/' + fn + ':' + 'latest', fn] + additional)
             subprocess.run(['docker', 'push', 'quadtree2/' + fn + ':' + 'latest'])
