@@ -1,5 +1,5 @@
 # AUTO ^[\d.]+$
-FROM selenium/standalone-firefox:3.141.59
+FROM selenium/standalone-firefox:80.0
 USER root
 RUN apt-get update && apt-get install -y python3-pip
 USER seluser
