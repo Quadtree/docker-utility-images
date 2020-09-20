@@ -1,22 +1,14 @@
 FROM ubuntu
+ARG VERSION
 RUN apt-get update
-RUN apt-get install -y git
-RUN apt-get install -y python
-RUN apt-get install -y xz-utils
+RUN apt-get install -y git python xz-utils autoconf libtool make nano rsync pkg-config cmake python3 bison flex
 RUN useradd -m cmp
 USER cmp
 RUN cd ~ && git clone https://github.com/juj/emsdk.git
-RUN ~/emsdk/emsdk install latest
-RUN ~/emsdk/emsdk activate latest
+RUN ~/emsdk/emsdk install $VERSION
+RUN ~/emsdk/emsdk activate $VERSION
 RUN echo 'source ~/emsdk/emsdk_env.sh' >> ~/.bashrc
 USER root
-RUN apt-get install -y autoconf
-RUN apt-get install -y libtool
-RUN apt-get install -y make
-RUN apt-get install -y nano rsync
-RUN apt-get install -y pkg-config
-RUN apt-get update
-RUN apt-get install -y cmake python3 bison flex
 RUN mkdir /usr/local/znt_web /usr/local/znt_src
 RUN chown cmp /usr/local/znt_web /usr/local/znt_src
 USER cmp

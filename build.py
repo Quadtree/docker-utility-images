@@ -19,19 +19,17 @@ for fn in os.listdir(cur_path):
         if os.path.isfile(os.path.join(cur_path, fn, 'Dockerfile')):
             tag = 'latest'
 
-            with open(os.path.join(cur_path, fn, 'Dockerfile')) as f:
-                for l in f:
-                    m = re.match(r'FROM (([A-Za-z0-9_.-]+)/)?([A-Za-z0-9_.-]+)(:([A-Za-z0-9_.-]*))?', l)
-
-                    if m:
-                        tag = m.group(5)
+            try:
+                with open(os.path.join(cur_path, fn, 'version')) as f:
+                    for l in f:
+                        tag = l.strip()
+                        break
+            except Exception: pass
 
             additional = []
             if args.no_cache: additional += ["--no-cache"]
 
             if tag and tag != 'latest':
-                subprocess.run(['docker', 'build', '-t', 'quadtree2/' + fn + ':' + tag, fn] + additional)
+                subprocess.run(['docker', 'build', '--build-arg', f'VERSION={tag}', '-t', 'quadtree2/' + fn + ':' + tag, fn] + additional)
                 subprocess.run(['docker', 'push', 'quadtree2/' + fn + ':' + tag])
-
-            subprocess.run(['docker', 'build', '-t', 'quadtree2/' + fn + ':' + 'latest', fn] + additional)
-            subprocess.run(['docker', 'push', 'quadtree2/' + fn + ':' + 'latest'])
+                
