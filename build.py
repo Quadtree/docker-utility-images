@@ -15,6 +15,8 @@ args = parser.parse_args()
 
 cur_path = os.path.realpath(os.path.dirname(__file__))
 
+REPO = 'ghcr.io/quadtree'
+
 def build_image(fn):
     tag = 'latest'
 
@@ -29,8 +31,8 @@ def build_image(fn):
     if args.no_cache: additional += ["--no-cache"]
 
     if tag and tag != 'latest':
-        subprocess.run(['docker', 'build', '--build-arg', f'VERSION={tag}', '-t', 'quadtree2/' + fn + ':' + tag, fn] + additional)
-        subprocess.run(['docker', 'push', 'quadtree2/' + fn + ':' + tag])
+        subprocess.run(['docker', 'build', '--build-arg', f'VERSION={tag}', '-t', f'{REPO}/' + fn + ':' + tag, fn] + additional)
+        subprocess.run(['docker', 'push', f'{REPO}/' + fn + ':' + tag])
 
 threads = []
 
