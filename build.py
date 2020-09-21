@@ -30,7 +30,7 @@ def build_image(fn):
     additional = []
     if args.no_cache: additional += ["--no-cache"]
 
-    if tag and tag != 'latest':
+    if tag:
         cmd1 = ['docker', 'build', '--build-arg', f'VERSION={tag}', '-t', f'{REPO}/' + fn + ':' + tag, fn] + additional
         print(cmd1)
         subprocess.run(cmd1)
