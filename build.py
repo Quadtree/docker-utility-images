@@ -38,6 +38,7 @@ def build_image(fn):
         print(cmd2)
         subprocess.run(cmd2)
 
+
 threads = []
 
 for fn in os.listdir(cur_path):
