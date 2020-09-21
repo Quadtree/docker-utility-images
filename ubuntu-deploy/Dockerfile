@@ -1,3 +1,3 @@
 FROM ubuntu
-RUN apt-get update
-RUN apt-get install -y rsync ssh
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y rsync ssh

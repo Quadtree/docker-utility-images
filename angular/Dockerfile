@@ -1,7 +1,7 @@
 FROM node:10
 
-RUN apt-get update
-RUN apt-get install -y python3
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3
 RUN npm install -g @angular/cli
 RUN mkdir /www
 RUN useradd -m cmp
