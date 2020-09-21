@@ -1,10 +1,10 @@
 FROM ubuntu
-ARG VERSION
 RUN apt-get update
 RUN apt-get install -y git python xz-utils autoconf libtool make nano rsync pkg-config cmake python3 bison flex
 RUN useradd -m cmp
 USER cmp
 RUN cd ~ && git clone https://github.com/juj/emsdk.git
+ARG VERSION
 RUN ~/emsdk/emsdk install $VERSION
 RUN ~/emsdk/emsdk activate $VERSION
 RUN echo 'source ~/emsdk/emsdk_env.sh' >> ~/.bashrc
