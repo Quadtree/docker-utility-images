@@ -31,8 +31,12 @@ def build_image(fn):
     if args.no_cache: additional += ["--no-cache"]
 
     if tag and tag != 'latest':
-        subprocess.run(['docker', 'build', '--build-arg', f'VERSION={tag}', '-t', f'{REPO}/' + fn + ':' + tag, fn] + additional)
-        subprocess.run(['docker', 'push', f'{REPO}/' + fn + ':' + tag])
+        cmd1 = ['docker', 'build', '--build-arg', f'VERSION={tag}', '-t', f'{REPO}/' + fn + ':' + tag, fn] + additional
+        print(cmd1)
+        subprocess.run(cmd1)
+        cmd2 = ['docker', 'push', f'{REPO}/' + fn + ':' + tag]
+        print(cmd2)
+        subprocess.run(cmd2)
 
 threads = []
 
