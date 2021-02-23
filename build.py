@@ -17,27 +17,36 @@ cur_path = os.path.realpath(os.path.dirname(__file__))
 
 REPO = 'ghcr.io/quadtree'
 
+def run_subproc(cmd):
+    print(cmd)
+    proc = subprocess.run(cmd1, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print(proc.stdout)
+    print(proc.stderr)
+
+any_error = False
+    
 def build_image(fn):
-    tag = 'latest'
-
+    global any_error
     try:
-        with open(os.path.join(cur_path, fn, 'version')) as f:
-            for l in f:
-                tag = l.strip()
-                break
-    except Exception: pass
+        tag = 'latest'
 
-    additional = []
-    if args.no_cache: additional += ["--no-cache"]
+        try:
+            with open(os.path.join(cur_path, fn, 'version')) as f:
+                for l in f:
+                    tag = l.strip()
+                    break
+        except Exception: pass
 
-    if tag:
+        additional = []
+        if args.no_cache: additional += ["--no-cache"]
+
         cmd1 = ['docker', 'build', '--build-arg', f'VERSION={tag}', '-t', f'{REPO}/' + fn + ':' + tag, fn] + additional
-        print(cmd1)
-        subprocess.run(cmd1)
+        run_subproc(cmd1)
         cmd2 = ['docker', 'push', f'{REPO}/' + fn + ':' + tag]
-        print(cmd2)
-        subprocess.run(cmd2)
-
+        run_subproc(cmd2)
+    except Exception as ex:
+        print(f"Building image {fn} failed with error: {ex}")
+        any_error = True
 
 threads = []
 
@@ -51,4 +60,6 @@ for fn in os.listdir(cur_path):
 for thread in threads:
     thread.join()
 
+if any_error:
+    raise Exception("Build failed with errors")
 
