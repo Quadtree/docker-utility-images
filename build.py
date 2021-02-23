@@ -19,9 +19,9 @@ REPO = 'ghcr.io/quadtree'
 
 def run_subproc(cmd):
     print(cmd)
-    proc = subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    print(proc.stdout)
-    print(proc.stderr)
+    proc = subprocess.run(cmd, check=True, capture_output=True)
+    print(proc.stdout.decode('utf8'))
+    print(proc.stderr.decode('utf8'))
 
 any_error = False
     
