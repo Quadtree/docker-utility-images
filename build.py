@@ -21,9 +21,12 @@ def run_subproc(cmd):
     print(cmd)
     env_vars = dict(os.environ)
     env_vars["DOCKER_BUILDKIT"] = "1"
-    proc = subprocess.run(cmd, check=True, capture_output=True, env=env_vars)
-    print(proc.stdout.decode('utf8'))
-    print(proc.stderr.decode('utf8'))
+    proc = subprocess.run(cmd, capture_output=True, env=env_vars)
+    if proc.returncode != 0:
+        raise Exception(f"{cmd} failed with code {proc.returncode}:\n{proc.stdout.decode('utf8')}\n{proc.stderr.decode('utf8')}")
+    else:
+        print(proc.stdout.decode('utf8'))
+        print(proc.stderr.decode('utf8'))
 
 any_error = False
 

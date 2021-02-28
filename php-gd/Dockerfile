@@ -1,4 +1,4 @@
-FROM ubuntu:19.10
+FROM ubuntu:20.04
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php-cli php-gd
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y imagemagick
