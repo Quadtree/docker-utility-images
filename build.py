@@ -19,12 +19,14 @@ REPO = 'ghcr.io/quadtree'
 
 def run_subproc(cmd):
     print(cmd)
-    proc = subprocess.run(cmd, check=True, capture_output=True)
+    env_vars = dict(os.environ)
+    env_vars["DOCKER_BUILDKIT"] = "1"
+    proc = subprocess.run(cmd, check=True, capture_output=True, env=env_vars)
     print(proc.stdout.decode('utf8'))
     print(proc.stderr.decode('utf8'))
 
 any_error = False
-    
+
 def build_image(fn):
     global any_error
     try:
@@ -40,9 +42,11 @@ def build_image(fn):
         additional = []
         if args.no_cache: additional += ["--no-cache"]
 
-        cmd1 = ['docker', 'build', '--build-arg', f'VERSION={tag}', '-t', f'{REPO}/' + fn + ':' + tag, fn] + additional
+        full_name = f'{REPO}/' + fn + ':' + tag
+
+        cmd1 = ['docker', 'build', '--build-arg', 'BUILDKIT_INLINE_CACHE=1', '--cache-from', full_name, '--build-arg', f'VERSION={tag}', '-t', full_name, fn] + additional
         run_subproc(cmd1)
-        cmd2 = ['docker', 'push', f'{REPO}/' + fn + ':' + tag]
+        cmd2 = ['docker', 'push', full_name]
         run_subproc(cmd2)
     except Exception as ex:
         print(f"Building image {fn} failed with error: {ex}")
