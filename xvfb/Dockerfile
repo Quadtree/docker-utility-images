@@ -1,4 +1,4 @@
-FROM openjdk
+FROM openjdk:11-slim-buster
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y git xvfb nodejs npm firefox
 RUN useradd -m cmp
 USER cmp
