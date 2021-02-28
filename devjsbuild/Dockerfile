@@ -2,7 +2,7 @@ FROM openjdk:alpine
 RUN apk update
 RUN apk add ca-certificates openssl curl python3 nodejs nodejs-npm git
 RUN update-ca-certificates
-RUN curl 'https://sigma.quadtree.info:9443/default/devjsbuild/raw/master/build.py' > /tmp/build.py
+ADD build.py /tmp/build.py
 
 RUN curl 'https://dl.google.com/closure-compiler/compiler-latest.zip' > /tmp/closure-compiler.zip
 RUN mkdir /tmp/closure-compiler
