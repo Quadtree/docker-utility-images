@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+from typing import IO, Optional
 import requests
 import re
 import subprocess
@@ -17,16 +18,23 @@ cur_path = os.path.realpath(os.path.dirname(__file__))
 
 REPO = 'ghcr.io/quadtree'
 
-def run_subproc(cmd):
+def watch_pipe(fn, txt, pipe:Optional[IO[bytes]]):
+    for l in pipe:
+        print(f'{fn} {txt}: {l.decode("utf8").strip()}')
+
+def run_subproc(fn, cmd):
     print(cmd)
     env_vars = dict(os.environ)
     env_vars["DOCKER_BUILDKIT"] = "1"
-    proc = subprocess.run(cmd, capture_output=True, env=env_vars)
+    proc = subprocess.Popen(cmd, env=env_vars, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    stdout_thread = threading.Thread(target=lambda: watch_pipe(fn, 'stdout', proc.stdout))
+    stdout_thread.start()
+    stderr_thread = threading.Thread(target=lambda: watch_pipe(fn, 'stderr', proc.stderr))
+    stderr_thread.start()
+    stdout_thread.join()
+    stderr_thread.join()
     if proc.returncode != 0:
-        raise Exception(f"{cmd} failed with code {proc.returncode}:\n{proc.stdout.decode('utf8')}\n{proc.stderr.decode('utf8')}")
-    else:
-        print(proc.stdout.decode('utf8'))
-        print(proc.stderr.decode('utf8'))
+        raise Exception(f"{fn} msg: {cmd} failed with code {proc.returncode}")
 
 any_error = False
 
@@ -48,9 +56,9 @@ def build_image(fn):
         full_name = f'{REPO}/' + fn + ':' + tag
 
         cmd1 = ['docker', 'build', '--build-arg', 'BUILDKIT_INLINE_CACHE=1', '--cache-from', full_name, '--build-arg', f'VERSION={tag}', '-t', full_name, fn] + additional
-        run_subproc(cmd1)
+        run_subproc(fn, cmd1)
         cmd2 = ['docker', 'push', full_name]
-        run_subproc(cmd2)
+        run_subproc(fn, cmd2)
     except Exception as ex:
         print(f"Building image {fn} failed with error: {ex}")
         any_error = True
