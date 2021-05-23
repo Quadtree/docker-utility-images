@@ -55,7 +55,8 @@ def build_image(fn):
 
         full_name = f'{REPO}/' + fn + ':' + tag
 
-        cmd1 = ['docker', 'build', '--build-arg', 'BUILDKIT_INLINE_CACHE=1', '--cache-from', full_name, '--build-arg', f'VERSION={tag}', '-t', full_name, fn] + additional
+        # '--cache-from', full_name,
+        cmd1 = ['docker', 'build', '--build-arg', 'BUILDKIT_INLINE_CACHE=1', '--build-arg', f'VERSION={tag}', '-t', full_name, fn] + additional
         run_subproc(fn, cmd1)
         cmd2 = ['docker', 'push', full_name]
         run_subproc(fn, cmd2)
