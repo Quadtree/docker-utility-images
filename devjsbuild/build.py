@@ -197,7 +197,7 @@ def performMinification(command, fileListRaw, ext, indiv=False):
 	if command_line_args.precompress == "1":
 		return outFileEnd
 	else:
-		return root + "/" + outFileStub
+		return outFileStub
 
 parser = argparse.ArgumentParser()
 parser.add_argument("dev_html_name")
