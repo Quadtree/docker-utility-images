@@ -4,10 +4,7 @@ RUN apk add ca-certificates openssl curl python3 nodejs nodejs-npm git
 RUN update-ca-certificates
 ADD build.py /tmp/build.py
 
-RUN curl 'https://dl.google.com/closure-compiler/compiler-latest.zip' > /tmp/closure-compiler.zip
-RUN mkdir /tmp/closure-compiler
-RUN unzip /tmp/closure-compiler.zip -d /tmp/closure-compiler/
-RUN mv /tmp/closure-compiler/*.jar /usr/local/bin/closure-compiler
+RUN curl 'https://repo1.maven.org/maven2/com/google/javascript/closure-compiler/v20210505/closure-compiler-v20210505.jar' > /usr/local/bin/closure-compiler
 RUN chmod +x /usr/local/bin/closure-compiler
 
 RUN npm install
