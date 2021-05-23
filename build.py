@@ -33,6 +33,7 @@ def run_subproc(fn, cmd):
     stderr_thread.start()
     stdout_thread.join()
     stderr_thread.join()
+    proc.wait()
     if proc.returncode != 0:
         raise Exception(f"{fn} msg: {cmd} failed with code {proc.returncode}")
 
