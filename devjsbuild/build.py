@@ -12,6 +12,7 @@ import gzip
 import csv
 import json
 import collections
+import argparse
 
 tmpPrefix = "/tmp/devjsbuildpy_" + str(os.getuid()) + "_"
 print("tmpPrefix=" + tmpPrefix)
@@ -173,7 +174,11 @@ def performMinification(command, fileListRaw, ext, indiv=False):
 			print ("args: " + str(args))
 			output = subprocess.check_output(args).decode("utf-8")
 
-			f = gzip.open(outFile, "wb")
+			if command_line_args.precompress == "1":
+				f = gzip.open(outFile, "wb")
+			else:
+				f = open(outFileStub, "wb")
+
 			f.write(output.encode("utf-8"))
 			f.close()
 		else:
@@ -181,16 +186,25 @@ def performMinification(command, fileListRaw, ext, indiv=False):
 			print ("args: " + str(args))
 			subprocess.check_call(args)
 
-			args = ['gzip', root + "/" + outFileStub]
-			print ("args: " + str(args))
-			subprocess.check_call(args)
+			if command_line_args.precompress == "1":
+				args = ['gzip', root + "/" + outFileStub]
+				print ("args: " + str(args))
+				subprocess.check_call(args)
 
 
 	print("Successfully built " + outFile + " contains " + str(len(output)) + " characters")
 
-	return outFileEnd
+	if command_line_args.precompress == "1":
+		return outFileEnd
+	else:
+		return root + "/" + outFileStub
 
-root = os.path.dirname(os.path.realpath(sys.argv[1]))
+parser = argparse.ArgumentParser()
+parser.add_argument("dev_html_name")
+parser.add_argument("--precompress", default="1")
+command_line_args = parser.parse_args()
+
+root = os.path.dirname(os.path.realpath(command_line_args.dev_html_name))
 
 print("Root is " + root)
 
