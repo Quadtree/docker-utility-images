@@ -1,6 +1,6 @@
-FROM openjdk:alpine
-RUN apk update
-RUN apk add ca-certificates openssl curl python3 nodejs nodejs-npm git
+FROM openjdk:11-jdk
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates openssl curl python3 nodejs nodejs npm git
 RUN update-ca-certificates
 ADD build.py /tmp/build.py
 
