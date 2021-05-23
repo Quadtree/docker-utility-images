@@ -8,4 +8,3 @@ RUN curl 'https://repo1.maven.org/maven2/com/google/javascript/closure-compiler/
 RUN chmod +x /usr/local/bin/closure-compiler
 
 RUN npm i -g clean-css-cli
-RUN ln -s $(which cleancss) /usr/local/bin/cleancss
