@@ -250,7 +250,7 @@ class CustomHTMLParser(html.parser.HTMLParser):
 
 parser = CustomHTMLParser()
 
-f = open(sys.argv[1], "r")
+f = open(command_line_args.dev_html_name, "r")
 
 for line in f:
 	parser.feed(line)
@@ -327,7 +327,7 @@ class RebuildingHTMLParser(html.parser.HTMLParser):
 
 parser = RebuildingHTMLParser()
 
-f = open(sys.argv[1], "r")
+f = open(command_line_args.dev_html_name, "r")
 
 for line in f:
 	parser.feed(line)
