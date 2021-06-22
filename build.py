@@ -11,6 +11,7 @@ import threading
 parser = argparse.ArgumentParser()
 parser.add_argument('--only')
 parser.add_argument('--no-cache', action="store_true")
+parser.add_argument('--use-buildkit', type=int, default=1)
 
 args = parser.parse_args()
 
@@ -25,7 +26,9 @@ def watch_pipe(fn, txt, pipe:Optional[IO[bytes]]):
 def run_subproc(fn, cmd):
     print(cmd)
     env_vars = dict(os.environ)
-    env_vars["DOCKER_BUILDKIT"] = "1"
+    if args.use_buildkit:
+        env_vars["DOCKER_BUILDKIT"] = "1"
+
     proc = subprocess.Popen(cmd, env=env_vars, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
     stdout_thread = threading.Thread(target=lambda: watch_pipe(fn, 'stdout', proc.stdout))
     stdout_thread.start()
