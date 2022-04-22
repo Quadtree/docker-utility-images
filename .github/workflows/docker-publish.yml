@@ -15,4 +15,4 @@ jobs:
 
       - name: Push image to GitHub Container Registry
         run: |
-          python3 build.py --only ${{CI_COMMIT_REF_NAME}}
+          python3 build.py --only ${GITHUB_REF##*/}
