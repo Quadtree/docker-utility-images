@@ -14,5 +14,7 @@ jobs:
         run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Push image to GitHub Container Registry
+        env:
+          CI_COMMIT_REF_NAME: ${CI_COMMIT_REF_NAME}
         run: |
           python3 build.py --only ${CI_COMMIT_REF_NAME}

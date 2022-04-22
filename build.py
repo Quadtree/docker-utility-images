@@ -7,6 +7,7 @@ import re
 import subprocess
 import argparse
 import threading
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--only')
@@ -14,6 +15,8 @@ parser.add_argument('--no-cache', action="store_true")
 parser.add_argument('--use-buildkit', type=int, default=1)
 
 args = parser.parse_args()
+
+if args.only == "master": sys.exit()
 
 cur_path = os.path.realpath(os.path.dirname(__file__))
 
