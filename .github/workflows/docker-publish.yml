@@ -17,4 +17,4 @@ jobs:
 
       - name: Push image to GitHub Container Registry
         run: |
-          python3 build.py --only chrome-webdriver-protractor
+          python3 build.py --only ${CI_COMMIT_REF_NAME}
