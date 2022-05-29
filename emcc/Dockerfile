@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:18.04
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git xz-utils autoconf libtool make nano rsync pkg-config cmake python3 bison flex
 RUN useradd -m cmp
