@@ -7,5 +7,5 @@ RUN npm install -g protractor
 RUN npm install -g yarn
 RUN webdriver-manager update
 RUN useradd seluser
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git libgconf-2-4
 USER seluser
