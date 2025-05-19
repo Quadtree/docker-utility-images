@@ -18,7 +18,7 @@ def compress_all_in(d, root=None):
         else:
             rel_to_root = pathlib.PurePath(fn).relative_to(root)
             ofn = os.path.join(OUT_DIR, rel_to_root) + '.br'
-            print(f'{rel_to_root=} {os.path.abspath(fn)=} {ofn=} {os.path.basename(fn)}')
+            #print(f'{rel_to_root=} {os.path.abspath(fn)=} {ofn=} {os.path.basename(fn)}')
 
             if len([1 for it in ALLOWED_PATHS if os.path.basename(fn).endswith(it)]) > 0:
 
@@ -40,10 +40,10 @@ def compress_all_in(d, root=None):
                     if need_to_recompress:
                         os.makedirs(os.path.dirname(ofn), exist_ok=True)
                         with open(ofn, 'wb') as f_out:
-                            print(f'Compressing {os.path.abspath(fn)} to {os.path.abspath(ofn)}')
+                            print(f'Compressing {os.path.abspath(fn)} to {os.path.abspath(ofn)}', flush=True)
                             f_out.write(brotli.compress(uncompressed_bytes))
                     else:
-                        print(f'NOT Compressing {os.path.abspath(fn)} to {os.path.abspath(ofn)}')
+                        print(f'NOT Compressing {os.path.abspath(fn)} to {os.path.abspath(ofn)}', flush=True)
 
 
 compress_all_in(os.getenv('BR_PRECOMP_TRG', '/data'))
