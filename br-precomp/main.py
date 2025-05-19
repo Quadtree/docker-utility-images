@@ -5,7 +5,8 @@ import pathlib
 ALLOWED_PATHS = [
     '.js',
     '.wasm',
-    '.pck'
+    '.pck',
+    '.data',
 ]
 
 OUT_DIR = os.getenv('BR_PRECOMP_DST', '/data/_autobr')
@@ -44,6 +45,8 @@ def compress_all_in(d, root=None):
                             f_out.write(brotli.compress(uncompressed_bytes))
                     else:
                         print(f'NOT Compressing {os.path.abspath(fn)} to {os.path.abspath(ofn)}', flush=True)
+
+                    print(f'Original Size: {os.stat(fn).st_size / 1024 / 1024:.06f}MiB {os.stat(ofn).st_size / 1024 / 1024:.06f}MiB')
 
 
 compress_all_in(os.getenv('BR_PRECOMP_TRG', '/data'))
