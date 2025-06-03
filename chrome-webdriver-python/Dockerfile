@@ -3,6 +3,5 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pip npm default-jre curl git
 RUN curl 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' > /tmp/chrome.deb
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y /tmp/chrome.deb
-USER seluser
-RUN pip3 install selenium
+RUN pip3 install --break-system-packages selenium
 ENTRYPOINT ["/bin/bash"]
