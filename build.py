@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--only')
 parser.add_argument('--no-cache', action="store_true")
 parser.add_argument('--use-buildkit', type=int, default=1)
+parser.add_argument('--docker-binary', default='docker')
 
 args = parser.parse_args()
 
@@ -62,9 +63,9 @@ def build_image(fn):
 
         full_name = f'{REPO}/' + fn + ':' + tag
 
-        cmd1 = ['docker', 'build', '--build-arg', 'BUILDKIT_INLINE_CACHE=1', '--cache-from', full_name, '--build-arg', f'VERSION={tag}', '-t', full_name, fn] + additional
+        cmd1 = [args.docker_binary, 'build', '--build-arg', 'BUILDKIT_INLINE_CACHE=1', '--cache-from', full_name, '--build-arg', f'VERSION={tag}', '-t', full_name, fn] + additional
         run_subproc(fn, cmd1)
-        cmd2 = ['docker', 'push', full_name]
+        cmd2 = [args.docker_binary, 'push', full_name]
         run_subproc(fn, cmd2)
     except Exception as ex:
         print(f"Building image {fn} failed with error: {ex}")
