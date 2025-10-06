@@ -24,7 +24,7 @@ def compress_all_in(d, root=None):
             if len([1 for it in ALLOWED_PATHS if os.path.basename(fn).endswith(it)]) > 0:
 
                 # Check if fn is OLDER than ofn. If so, then ofn must be up to date
-                if os.stat(fn).st_mtime < os.stat(ofn).st_mtime:
+                if os.path.exists(fn) and os.path.exists(ofn) and os.stat(fn).st_mtime < os.stat(ofn).st_mtime:
                     print(f'NOT Compressing {os.path.abspath(fn)} to {os.path.abspath(ofn)} as {os.stat(fn).st_mtime=} < {os.stat(ofn).st_mtime=}', flush=True)
                     continue
 
